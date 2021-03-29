@@ -9,6 +9,7 @@ import Combine
 import CoreLocation
 
 class CLLocationManagerPublicist: NSObject {
+	
 	private let authorizationSubject = PassthroughSubject<CLAuthorizationStatus, Never>()
 	private let locationSubject = PassthroughSubject<[CLLocation], Never>()
 	
@@ -17,6 +18,7 @@ class CLLocationManagerPublicist: NSObject {
 
 
 extension CLLocationManagerPublicist: CLLocationManagerPublicistDelegate {
+	
 	func authorizationPublisher() -> AnyPublisher<CLAuthorizationStatus, Never> {
 		return Just(CLAuthorizationStatus.notDetermined)
 			.merge(with: authorizationSubject.compactMap { $0 })
@@ -33,6 +35,7 @@ extension CLLocationManagerPublicist: CLLocationManagerPublicistDelegate {
 
 // CLLocationManagerDelegateとCombineを連結
 extension CLLocationManagerPublicist {
+	
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		locationSubject.send(locations)
 	}

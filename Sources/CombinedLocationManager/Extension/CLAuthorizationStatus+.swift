@@ -8,6 +8,7 @@
 import CoreLocation
 
 extension CLAuthorizationStatus: CustomStringConvertible {
+	
 	public var description: String {
 		switch self {
 			case .authorizedAlways: return "Authorized Always"

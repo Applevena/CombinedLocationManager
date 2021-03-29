@@ -9,6 +9,7 @@ import Combine
 import CoreLocation
 
 public protocol CLLocationManagerPublicistDelegate: CLLocationManagerDelegate {
+	
 	func authorizationPublisher() -> AnyPublisher<CLAuthorizationStatus, Never>
 	
 	func locationPublisher() -> AnyPublisher<[CLLocation], Never>

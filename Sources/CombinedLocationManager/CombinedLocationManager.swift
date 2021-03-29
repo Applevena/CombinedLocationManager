@@ -10,6 +10,7 @@ import Combine
 import CoreLocation
 
 public class CombinedLocationManager: ObservableObject {
+	
 	public static let shared: CombinedLocationManager = CombinedLocationManager()
 	
 	private let manager: CLLocationManager
@@ -25,7 +26,11 @@ public class CombinedLocationManager: ObservableObject {
 		let manager = CLLocationManager()
 		let publicist = CLLocationManagerPublicist()
 		
+		// デフォルト設定
 		manager.delegate = publicist
+		manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+		manager.distanceFilter = 10
+		manager.activityType = .fitness
 		
 		self.manager = manager
 		self.publicist = publicist
@@ -57,6 +62,11 @@ public class CombinedLocationManager: ObservableObject {
 
 
 extension CombinedLocationManager {
+	
+	public func configure(_ customize: @escaping (CLLocationManager) -> Void) {
+		customize(manager)
+	}
+	
 	public func requestAuthorization() {
 		manager.requestWhenInUseAuthorization()
 	}
@@ -76,6 +86,7 @@ extension CombinedLocationManager {
 	public func stopUpdatingLocation() {
 		handleAuthorization { manager.stopUpdatingLocation() }
 	}
+	
 	
 	private func handleAuthorization(for method: () -> Void) {
 		switch manager.authorizationStatus {
